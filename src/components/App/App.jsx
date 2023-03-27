@@ -11,15 +11,24 @@ function App () {
   }, []);
 
   const fetchTasks = async () => {
-    const response = await axios.get('/api/tasks');
+    const response = await axios.get('/todo');
     setTasks(response.data);
   };
 
   const createTask = async (e) => {
     e.preventDefault();
     if(newTask.trim() === '') return;
-    await axios.post('/api/tasks', {description: newTask});
+    await axios.post('/todo', {description: newTask});
     setNewTask('');
+    fetchTasks();
+  };
+
+  const toggleComplete = async (id, isComplete) => {
+    await axios.put(`/todo/${id}`, {isComplete: !isComplete});
+  };
+
+  const deleteTask = async (id) => {
+    await axios.delete(`/todo/${id}`);
     fetchTasks();
   };
   
@@ -37,7 +46,14 @@ function App () {
       </form>
       <ul> {/* list of tasks */}
       {tasks.map((task) => (
-        <li key={task.id}>{task.description}</li>
+        <li key={task.id}>{task.description}
+        <span className="actions">
+          <button onClick={() => toggleComplete(task.id, task.is_complete)}>
+            {task.is_complete ? 'Mark Incomplete' : 'Mark Complete'}
+          </button>
+          <button onClick={() => deleteTask(task.id)}>Delete</button>
+        </span>
+        </li>
       ))}
         </ul>
     </div>
