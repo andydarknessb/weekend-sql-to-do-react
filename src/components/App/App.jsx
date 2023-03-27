@@ -26,7 +26,20 @@ function App () {
   return (
     <div>
       <h1>TO DO APP</h1>
-      <form onSubmit={createTask}></form>
+      <form onSubmit={createTask}>
+        <input 
+          type="text"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
+          placeholder="Enter a new task"
+      />
+      <button type="submit">Create Task</button>
+      </form>
+      <ul> {/* list of tasks */}
+      {tasks.map((task) => (
+        <li key={task.id}>{task.description}</li>
+      ))}
+        </ul>
     </div>
   );
 
