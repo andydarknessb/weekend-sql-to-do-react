@@ -13,6 +13,15 @@ router.get('/api/tasks', async (req, res) => {
 });
 
 // POST
+router.post('/api/tasks', async (req, res) => {
+    try{
+        const { description } = req.body;
+        const result = await pool.query('INSERT INTO tasks (description) VALUEs ($1) RETURNING id', [description]);
+        res.status(201).json({ id: result.rows[0].id});
+    } catch (error) {
+        res.status(500).json({error: error.message });
+    }   
+});
 
 // PUT
 
