@@ -9,6 +9,19 @@ function App () {
   useEffect(() => {
     fetchTasks();
   }, []);
+
+  const fetchTasks = async () => {
+    const response = await axios.get('/api/tasks');
+    setTasks(response.data);
+  };
+
+  const createTask = async (e) => {
+    e.preventDefault();
+    if(newTask.trim() === '') return;
+    await axios.post('/api/tasks', {description: newTask});
+    setNewTask('');
+    fetchTasks();
+  };
   
   return (
     <div>
