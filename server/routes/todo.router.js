@@ -28,7 +28,7 @@ router.put('/:id', async (req, res) => {
     try{
         const { id } = req.params;
         const { isComplete } = req.body;
-        await pool.query('UPDATE tasks SET is _complete = $1 WHERE id = $2', [isComplete, id]);
+        await pool.query('UPDATE tasks SET is_complete = $1 WHERE id = $2', [isComplete, id]);
         res.sendStatus(204);
     }   catch (error) {
         res.status(500).json({error: error.message});
